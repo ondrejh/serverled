@@ -1,0 +1,25 @@
+Typical set of RS-274X file names:
+
+Copper:
+  Gerber TOP layer                  *.GTL
+  Gerber inner plane 1 (TOP)        *.GP1
+  Gerber inner plane 2 (BOTTOM)     *.GP2
+  Gerber BOTTOM layer               *.GBL
+
+Silk screen:
+  Gerber TOP ovelay                 *.GTO
+  Gerber BOTTOM overlay             *.GBO
+
+Solder stop mask:
+  Gerber TOP solder stop mask       *.GTS
+  Gerber BOTTOM solder stop mask    *.GBS
+
+Soldering paste:
+  Gerber TOP paste                  *.GTP
+  Gerber BOTTOM paste               *.GBP
+
+Mechanical dimensions:
+  Gerber mechanical 1               *.GM1
+
+Drilling:
+  Excellon drilling                 *.DRD
