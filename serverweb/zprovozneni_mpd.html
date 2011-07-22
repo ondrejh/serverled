@@ -8,7 +8,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs">
 <head>
-   <meta http-equiv="content-type" content="text/html; windows-1250" />
+   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <meta http-equiv="content-language" content="cs">
 	<meta name="author" content="ondrej" />
 	<meta name="description" content="Site description" />
@@ -38,49 +38,56 @@
 <div style="float: right;"><a href="javascript:ts('body',1)">[+]</a> | <a
 href="javascript:ts('body',-1)">[-]</a></div>
 <div id="left">
-<h2>Co je MPD a k èemu to pouívám</h2>
-<p><a href="http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki">MPD</a> - music player deamon, je sluba, která na serveru zajišuje pøehrávání hudby.
-	K sevreru by mìl bıt pøipojen FM vysílaè malého vıkonu, kterı umoní vysílání do rádií v domì (resp. hlavnì do altánu na zahradu). 
- <h2>Postup zprovoznìní na serveru</h2>
+<h2>Co je MPD a k Äemu to pouÅ¾Ã­vÃ¡m</h2>
+<p><a href="http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki">MPD</a> - music player deamon, je sluÅ¾ba, kterÃ¡ na serveru zajiÅ¡Å¥uje pÅ™ehrÃ¡vÃ¡nÃ­ hudby.
+	K sevreru by mÄ›l bÃ½t pÅ™ipojen FM vysÃ­laÄ malÃ©ho vÃ½konu, kterÃ½ umoÅ¾nÃ­ vysÃ­lÃ¡nÃ­ do rÃ¡diÃ­ v domÄ› (resp. hlavnÄ› do altÃ¡nu na zahradu). 
+ <h2>Postup zprovoznÄ›nÃ­ na serveru</h2>
  <h3>Instalace ALSA</h3>
  <p>
- Instalace potøebnıch komponent:
+ Instalace potÅ™ebnÃ½ch komponent:
  <ul>
  <li><code>apt-get install libasound2</code></li>
  <li><code>apt-get install alsa-base alsa-utils alsa-oss</code></li>
  </ul>
  Detekce hardware:
  <ul><li><code>alsactl init</code></li></ul>
- Restart systému:
+ Restart systÃ©mu:
  <ul><li><code>reboot</code></li></ul>
  </p>
  <h3>Instalace MPD (a MPC)</h3>
  </p>
  Instalace:
  <ul><li><code>apt-get install mpd mpc</code></li></ul>
- Úprava konfiguraèního souboru:
+ Ãšprava konfiguraÄnÃ­ho souboru:
  <ul>
  <li><code>vi /etc/mpd.conf</code></li>
  <li>odkomentovat: <code>mixer type "software"</code></li>
  <li>zakomentovat: <code>#bind_to_address "localhost"</code></li>
- <li>odkomentovat: <code>bind_to address "/var/run/mpd/socket"<code></li>
+ <li>odkomentovat: <code>bind_to address "/var/run/mpd/socket"</code></li>
  </ul>
- Restart sluby:
+ Restart sluÅ¾by:
  <ul>
  <li><code>service mpd restart</code></li>
  <li><code>mpd</code></li>
  </ul>
- Vyzkoušení streamu:
+ VyzkouÅ¡enÃ­ streamu:
  <ul>
  <li><code>mpc add http://relay3.slayradio.org:8000/</code></li>
  <li><code>mpc play</code></li>
- <li>... teï by to mìlo hrát - ale pozor - to rádio je pøíšernı</li>
- <li>zkouška nastavení hlasitosti: <code>mpc volume 50</code></li>
- <li>zobrazení co hraje: <code>mpc current</code></li>
+ <li>... teÄ by to mÄ›lo hrÃ¡t - ale pozor - to rÃ¡dio je pÅ™Ã­Å¡ernÃ½</li>
+ <li>zkouÅ¡ka nastavenÃ­ hlasitosti: <code>mpc volume 50</code></li>
+ <li>zobrazenÃ­ co hraje: <code>mpc current</code></li>
  <li><code>mpc stop</code></li>
  </ul>
- <h2>Pouité zdroje</h2>
  </p>
+ <h2>Streamy kvÅ¯li kterÃ½m to vlastnÄ› dÄ›lÃ¡m</h2>
+ <p>
+ RockMax 128kbit: <a href="http://212.111.2.151:8000/rockmax_128.mp3">http://212.111.2.151:8000/rockmax_128.mp3</a><br>
+ RockMax Oldies 128kbit: <a href="http://212.111.2.151:8000/rm_old_128.mp3">http://212.111.2.151:8000/rm_old_128.mp3</a><br>
+ RockMax Hard 128kbit: <a href="http://212.111.2.151:8000/rm_hard_128.mp3">http://212.111.2.151:8000/rm_hard_128.mp3</a><br>
+ ... vÅ¡echny RockMaxy jsou k nalezani na <a href="http://212.111.2.151:8000/">http://212.111.2.151:8000/</a>
+ </p>
+ <h2>PouÅ¾itÃ© zdroje</h2>
  <ul>
  <li><a href="http://wiki.debian.org/ALSA">http://wiki.debian.org/ALSA</a></li>
  <li><a href="http://wiki.ubuntu.cz/MPD">http://wiki.ubuntu.cz/MPD</a></li>
