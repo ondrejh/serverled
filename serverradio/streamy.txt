@@ -1,0 +1,10 @@
+streamy:
+	rockmax hard 128:
+		http://212.111.2.151:8000/rm_hard_128.mp3
+	rockmax 128:
+		http://212.111.2.151:8000/rockmax_128.mp3
+	rockmax oldies 128:
+		http://212.111.2.151:8000/rm_old_128.mp3
+
+vsechny rockmax(y) na http://212.111.2.151:8000/
+

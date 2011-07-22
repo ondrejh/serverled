@@ -1,0 +1,38 @@
+postup:
+- nainstalovat ALSA:
+	apt-get install libasound2
+	apt-get install alsa-base alsa-utils alsa-oss
+
+- detekovat hardware:
+	alsactl init
+	reboot
+
+- nainstalovat MPD (a MPC)
+	apt-get install mpd mpc
+
+- nastavit MPD podle wiki.ubuntu.cz/MPD
+	soubor /etc/mpd.conf:
+		odremovat: mixer_type "software"
+		!!! zaremovat: bind_to_address "localhost"
+		!!! odremovat: bind_to_address "/var/run/mpd/socket"
+
+	service mpd restart
+	mpd
+
+- vyzkouset stream
+	mpc add http://relay3.slayradio.org:8000/
+	mpc play
+	... !!! pozor - je to dost priserny
+	mpc stop
+
+- optional:
+	nastaveni hlasitosti (na 50%):
+		mpc volume 50
+	zobrazit co hraje
+		mpc current
+
+zdroje:
+http://wiki.debian.org/ALSA
+http://wiki.ubuntu.cz/MPD
+http://pandatron.cz/?1572&projekt_wifi_radia_v_-_zvukovy_vystup_a_prvni_stream
+man mpc
