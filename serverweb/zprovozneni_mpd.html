@@ -15,7 +15,8 @@
 	<meta name="keywords" content="key, words" />
 	<title>Home server - nastaveni MPD</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
-	<link rel="shortcut icon" href="favicon.ico" />
+	<!-- <link rel="shortcut icon" href="favicon.ico" /> -->
+	<link rel="shortcut icon" href="debian.ico" />
 	<script type="text/javascript" src="js/textsizer.js"></script>
 	<script type="text/javascript" src="js/rel.js"></script>
 </head>
@@ -45,38 +46,38 @@ href="javascript:ts('body',-1)">[-]</a></div>
  <p>
  Instalace potøebných komponent:
  <ul>
- <li>apt-get install libasound2</li>
- <li>apt-get install alsa-base alsa-utils alsa-oss</li>
+ <li><code>apt-get install libasound2</code></li>
+ <li><code>apt-get install alsa-base alsa-utils alsa-oss</code></li>
  </ul>
  Detekce hardware:
- <ul><li>alsactl init</li></ul>
+ <ul><li><code>alsactl init</code></li></ul>
  Restart systému:
- <ul><li>reboot</li></ul>
+ <ul><li><code>reboot</code></li></ul>
  </p>
  <h3>Instalace MPD (a MPC)</h3>
  </p>
  Instalace:
- <ul><li>apt-get install mpd mpc</li></ul>
+ <ul><li><code>apt-get install mpd mpc</code></li></ul>
  Úprava konfiguraèního souboru:
  <ul>
- <li>vi /etc/mpd.conf</li>
- <li>odkomentovat: mixer type "software"</li>
- <li>zakomentovat: bind_to_address "localhost"</li>
- <li>odkomentovat: bind_to address "/var/run/mpd/socket"</li>
+ <li><code>vi /etc/mpd.conf</code></li>
+ <li>odkomentovat: <code>mixer type "software"</code></li>
+ <li>zakomentovat: <code>#bind_to_address "localhost"</code></li>
+ <li>odkomentovat: <code>bind_to address "/var/run/mpd/socket"<code></li>
  </ul>
  Restart služby:
  <ul>
- <li>service mpd restart</li>
- <li>mpd</li>
+ <li><code>service mpd restart</code></li>
+ <li><code>mpd</code></li>
  </ul>
  Vyzkoušení streamu:
  <ul>
- <li>mpc add http://relay3.slayradio.org:8000/</li>
- <li>mpc play</li>
+ <li><code>mpc add http://relay3.slayradio.org:8000/</code></li>
+ <li><code>mpc play</code></li>
  <li>... teï by to mìlo hrát - ale pozor - to rádio je pøíšerný</li>
- <li>zkouška nastavení hlasitosti: mpc volume 50</li>
- <li>zobrazení co hraje: mpc current</li>
- <li>mpc stop</li>
+ <li>zkouška nastavení hlasitosti: <code>mpc volume 50</code></li>
+ <li>zobrazení co hraje: <code>mpc current</code></li>
+ <li><code>mpc stop</code></li>
  </ul>
  <h2>Použité zdroje</h2>
  </p>
