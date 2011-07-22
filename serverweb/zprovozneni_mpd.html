@@ -13,7 +13,7 @@
 	<meta name="author" content="ondrej" />
 	<meta name="description" content="Site description" />
 	<meta name="keywords" content="key, words" />
-	<title>Home server</title>
+	<title>Home server - nastaveni MPD</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
 	<link rel="shortcut icon" href="favicon.ico" />
 	<script type="text/javascript" src="js/textsizer.js"></script>
@@ -23,11 +23,11 @@
 <body>
 <div id="wrap">
 <div id="top">
-<h2><a href="#" title="Back to main page">Debian Home Server</a></h2>
+<h2><a href="index.html" title="Back to main page">Debian Home Server</a></h2>
 <div id="menu">
 <ul>
-<li><a href="#" class="current">home</a></li>
-<li><a href="zprovozneni_mpd.html">about</a></li>
+<li><a href="index.html">home</a></li>
+<li><a href="#"class="current">about</a></li>
 <li><a href="#">portofolio</a></li>
 <li><a href="#">contact</a></li>
 </ul>
@@ -37,25 +37,58 @@
 <div style="float: right;"><a href="javascript:ts('body',1)">[+]</a> | <a
 href="javascript:ts('body',-1)">[-]</a></div>
 <div id="left">
-<h2>Vítejte na stránkách serveru</h2>
-<p>Obsah webovıch stránek bude postupnì doplòován o informace o podporovanıch funkcích serveru a pøehled jejich nastavení a aktuálního stavu.
-   <a href="#">Popis hardware</a> serveru a jiné praktické vìci zde budou také k dispozici.</p>
- <h2>Sluby a aplikace</h2>
- <p>Seznam dostupnıch slueb serveru:
+<h2>Co je MPD a k èemu to pouívám</h2>
+<p><a href="http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki">MPD</a> - music player deamon, je sluba, která na serveru zajišuje pøehrávání hudby.
+	K sevreru by mìl bıt pøipojen FM vysílaè malého vıkonu, kterı umoní vysílání do rádií v domì (resp. hlavnì do altánu na zahradu). 
+ <h2>Postup zprovoznìní na serveru</h2>
+ <h3>Instalace ALSA</h3>
+ <p>
+ Instalace potøebnıch komponent:
  <ul>
- <li>Úloištì repozitáøù GIT</li>
- <li>Síovı souborovı server NAS</li>
- <li>Hudební server MPD</li>
+ <li>apt-get install libasound2</li>
+ <li>apt-get install alsa-base alsa-utils alsa-oss</li>
  </ul>
+ Detekce hardware:
+ <ul><li>alsactl init</li></ul>
+ Restart systému:
+ <ul><li>reboot</li></ul>
  </p>
- <!-- <h2>pøikrášlenı luouèkı kùò PØIKRÁŠLENİ LUOUÈKİ KÙÒ</h2>
- <p>pøikrášlenı luouèkı kùò PØIKRÁŠLENİ LUOUÈKİ KÙÒ</p>
- <h2>Divnı èeskı znaky: á Á è È ï Ï é É í Í ò Ò ó Ó ø Ø š Š   ú Ú ù Ù ı İ  </h2>
- <p>Divnı èeskı znaky: á Á è È ï Ï é É í Í ò Ò ó Ó ø Ø š Š   ú Ú ù Ù ı İ  </p> -->
+ <h3>Instalace MPD (a MPC)</h3>
+ </p>
+ Instalace:
+ <ul><li>apt-get install mpd mpc</li></ul>
+ Úprava konfiguraèního souboru:
+ <ul>
+ <li>vi /etc/mpd.conf</li>
+ <li>odkomentovat: mixer type "software"</li>
+ <li>zakomentovat: bind_to_address "localhost"</li>
+ <li>odkomentovat: bind_to address "/var/run/mpd/socket"</li>
+ </ul>
+ Restart sluby:
+ <ul>
+ <li>service mpd restart</li>
+ <li>mpd</li>
+ </ul>
+ Vyzkoušení streamu:
+ <ul>
+ <li>mpc add http://relay3.slayradio.org:8000/</li>
+ <li>mpc play</li>
+ <li>... teï by to mìlo hrát - ale pozor - to rádio je pøíšernı</li>
+ <li>zkouška nastavení hlasitosti: mpc volume 50</li>
+ <li>zobrazení co hraje: mpc current</li>
+ <li>mpc stop</li>
+ </ul>
+ <h2>Pouité zdroje</h2>
+ </p>
+ <ul>
+ <li><a href="http://wiki.debian.org/ALSA">http://wiki.debian.org/ALSA</a></li>
+ <li><a href="http://wiki.ubuntu.cz/MPD">http://wiki.ubuntu.cz/MPD</a></li>
+ <li><a href="http://pandatron.cz/?1572&projekt_wifi_radia_v_-_zvukovy_vystup_a_prvni_stream">http://pandatron.cz/?1572&projekt_wifi_radia_v_-_zvukovy_vystup_a_prvni_stream</a></li>
+ </ul>
 </div>
 <div id="right">
 <ul id="nav">
-	<li><a href="#Home">Home</a></li>
+	<li><a href="index.html">Home</a></li>
 	<li><a href="#Archive">Archive</a></li>
 	<li><a href="#Link">Links</a></li>
 	<li><a href="#download">Download</a></li>
