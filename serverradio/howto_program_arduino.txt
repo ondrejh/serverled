@@ -1,0 +1,1 @@
+avrdude -c arduino -p m328p -P COM13 -b 57600 -U flash:w:radio.hex
