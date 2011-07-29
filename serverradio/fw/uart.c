@@ -27,7 +27,7 @@ uint8_t tx_buff_outptr = 0;
 
 #define RXBUF_SIZE 0x10
 char rx_buff[RXBUF_SIZE];
-int8_t rx_buff_ptr = -1;
+uint8_t rx_buff_ptr = 0;
 
 // uart initialization
 void init_uart(void)
