@@ -9,6 +9,7 @@
 
 #include "uart.h"
 #include "board.h"
+#include "disp.h"
 
 /// definitions
 #define RX_DONE ((UCSR0A&(1<<RXC0))!=0)
@@ -18,9 +19,10 @@
 #define TX_DTE ((UCSR0A&(1<<UDRE0))!=0)
 
 /// global variables
-bool echo = true;
+//bool echo = true;
+bool echo = false;
 
-#define TXBUF_SIZE 0x30
+#define TXBUF_SIZE 0x50
 char tx_buff[TXBUF_SIZE];
 uint8_t tx_buff_inptr = 0;
 uint8_t tx_buff_outptr = 0;
@@ -36,6 +38,20 @@ void init_uart(void)
 	UCSR0A = (1<<U2X0); // double speed
 	UCSR0B = (1<<RXEN0) | (1<<TXEN0); // enable rx & tx
 	UBRR0 = 34; // 57600 Baud // 16.0MHz
+}
+
+char i2hex(uint8_t b)
+{
+    if (b<0x0A) return '0'+b;
+    if (b<0x10) return 'A'-10+b;
+    return '?';
+}
+
+void uart_print_uint8(uint8_t b)
+{
+    uart_putch(i2hex((b>>4)&0x0F));
+    uart_putch(i2hex(b&0x0F));
+    uart_putch(' ');
 }
 
 // put char function
@@ -121,6 +137,17 @@ void proceed_message(void)
     if (rx_buff_ptr>0) // is there something in the buffer?
     {
         uint8_t len=strlen(rx_buff);
+        // DISPADC
+        if ((len==MSGLEN_DISPADC) && (strncmp(rx_buff,MSG_DISPADC,MSGLEN_DISPADC)==0))
+        {
+            int i,j;
+            for (j=0;j<4;j++)
+            {
+                for (i=0;i<6;i++) uart_print_uint8(pinadc[j][i]);
+                uart_putch('\n');
+            }
+            return;
+        }
         // ECHO ON (set echo on)
         if ((len==MSGLEN_ECHO_ON) && (strncmp(rx_buff,MSG_ECHO_ON,MSGLEN_ECHO_ON)==0))
         {

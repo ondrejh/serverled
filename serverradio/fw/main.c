@@ -18,6 +18,7 @@
 
 #include "uart.h"
 #include "board.h"
+#include "disp.h"
 
 /** global variables */
 
@@ -31,6 +32,7 @@ int main(void)
     init_ios();
 	//init_timer();
 	init_uart();
+	init_disp();
 	sei();
 
 	LED_ON();

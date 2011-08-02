@@ -14,6 +14,8 @@
 #define MSGLEN_ECHO_ON  (const uint8_t) 7
 #define MSG_ECHO_OFF    (const char *) "ECHO OFF"
 #define MSGLEN_ECHO_OFF (const uint8_t) 8
+#define MSG_DISPADC     (const char *) "DISPADC"
+#define MSGLEN_DISPADC  (const uint8_t) 7
 
 /// initialization
 void init_uart(void);

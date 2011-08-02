@@ -5,3 +5,4 @@ serverradio/fw/*.o
 serverradio/fw/*.eep
 serverradio/fw/*.elf
 serverradio/fw/*.layout
+serverradio/fw/*.cbTemp

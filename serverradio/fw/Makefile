@@ -8,7 +8,7 @@
 MCU = atmega328p
 FORMAT = ihex
 TARGET = radio
-SRC = main.c uart.c board.c
+SRC = main.c uart.c board.c disp.c
 ASRC =
 OPT = s
 BASEADDR = 0x0000
