@@ -28,6 +28,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="board.h" />
+		<Unit filename="button.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="button.h" />
 		<Unit filename="disp.c">
 			<Option compilerVar="CC" />
 		</Unit>
