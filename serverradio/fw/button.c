@@ -1,4 +1,7 @@
 /** button driver module */
+/** buttons:    PD6 ... |<<
+                PD7 ... CH
+                PB0 ... >>| */
 
 #include <avr/io.h>
 #include <avr/interrupt.h>

@@ -6,6 +6,37 @@
 
 #include "disp.h"
 
+/** display - bottom look (at the pins):
+
+        |- top ----------------------------|
+        |                                  |
+        |   d01  d02  d03  d04  d05  d06   |
+        |                                  |
+        |   d07  d08  d09  d10  d11  d12   |
+        |                                  |
+        |----------------------------------|
+
+    multiplex:  PD2 ... d06
+                PD3 ... d02
+                PD4 ... d07
+                PD5 ... d03
+
+    bus:        PC0 (ADC0) ... d12
+                PC1 (ADC1) ... d08
+                PC2 (ADC2) ... d04
+                PC3 (ADC3) ... d01
+                PC4 (ADC4) ... d11
+                PC5 (ADC5) ... d09
+
+    bus unconnected (point and top segment): d05, d10   */
+
+/** how it should work
+    1) pin change interrupt on multiplex pins
+    2) start timer
+    3) after timer timeout 100us (output capture interrupt) start ADC
+    4) read all 6 ADCs using 8bit value
+    x) wait pin change interrupt */
+
 #define ADC_START() ADCSRA|=(1<<ADSC)
 #define TIMER_START() TCCR2B=(2<<CS21)
 #define TIMER_STOP() TCCR2B=0
