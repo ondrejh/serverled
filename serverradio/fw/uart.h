@@ -20,6 +20,8 @@
 #define MSGLEN_ECHO_OFF (const uint8_t) 8
 #define MSG_DISPADC     (const char *) "DISPADC"
 #define MSGLEN_DISPADC  (const uint8_t) 7
+#define MSG_PRESB       (const char *) "PRESS"
+#define MSGLEN_PRESB    (const uint8_t) 5
 
 /// initialization
 void init_uart(void);

@@ -6,10 +6,12 @@
 #include <inttypes.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "uart.h"
 #include "board.h"
 #include "disp.h"
+#include "button.h"
 
 /// definitions
 #define RX_DONE ((UCSR0A&(1<<RXC0))!=0)
@@ -148,6 +150,14 @@ void proceed_message(void)
         {
             uart_puts(VERSION);
             return;
+        }
+        // PRES BUTTON
+        if ((len==MSGLEN_PRESB+1) && (strncmp(rx_buff,MSG_PRESB,MSGLEN_PRESB)==0))
+        {
+            unsigned int b = 0xFF;
+            if (sscanf(&rx_buff[MSGLEN_PRESB],"%01X",&b)==1)
+                if (presb==-1)
+                    presb=b;
         }
         // DISPADC
         if ((len==MSGLEN_DISPADC) && (strncmp(rx_buff,MSG_DISPADC,MSGLEN_DISPADC)==0))

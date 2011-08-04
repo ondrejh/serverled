@@ -13,6 +13,8 @@
 #define BTN_PRESS_TIME 20
 uint8_t btn_timer = 0;
 
+int8_t presb = -1;
+
 /// button down (if btn not exist return -1 else return 0)
 int8_t btn_down(uint8_t btn)
 {

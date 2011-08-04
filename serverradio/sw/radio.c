@@ -21,8 +21,6 @@
 #define MODEMDEVICE "/dev/ttyUSB0"
 #define TXRX_TIMEOUT 0.2f/*s*/
 
-#define END_CHAR '/n'
-
 /** termios structures */
 struct termios oldtio,newtio;
 

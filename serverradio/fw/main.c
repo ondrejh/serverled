@@ -19,6 +19,7 @@
 #include "uart.h"
 #include "board.h"
 #include "disp.h"
+#include "button.h"
 
 /** global variables */
 
@@ -30,7 +31,7 @@ int main(void)
 
 	// initialization
     init_ios();
-	//init_timer();
+	init_timer();
 	init_uart();
 	init_disp();
 	sei();
