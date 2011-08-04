@@ -137,6 +137,18 @@ void proceed_message(void)
     if (rx_buff_ptr>0) // is there something in the buffer?
     {
         uint8_t len=strlen(rx_buff);
+        // DEVICE
+        if ((len==MSGLEN_DEVICE) && (strncmp(rx_buff,MSG_DEVICE,MSGLEN_DEVICE)==0))
+        {
+            uart_puts(DEVICE);
+            return;
+        }
+        // VERSION
+        if ((len==MSGLEN_VERSION) && (strncmp(rx_buff,MSG_VERSION,MSGLEN_VERSION)==0))
+        {
+            uart_puts(VERSION);
+            return;
+        }
         // DISPADC
         if ((len==MSGLEN_DISPADC) && (strncmp(rx_buff,MSG_DISPADC,MSGLEN_DISPADC)==0))
         {

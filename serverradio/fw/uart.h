@@ -4,6 +4,10 @@
 #define _UART_H
 
 /// messages
+#define MSG_DEVICE      (const char *) "DEVICE"
+#define MSGLEN_DEVICE   (const uint8_t) 6
+#define MSG_VERSION     (const char *) "VERSION"
+#define MSGLEN_VERSION  (const uint8_t) 7
 #define MSG_PWR         (const char *) "PWR"
 #define MSGLEN_PWR      (const uint8_t) 3
 #define MSG_PWR_ON      (const char *) "PWR ON"

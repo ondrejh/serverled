@@ -41,14 +41,18 @@
 #define TIMER_START() TCCR2B=(2<<CS21)
 #define TIMER_STOP() TCCR2B=0
 
+#define DISP_ADC_TRASHOLD 0x80
+
 uint8_t mpin = 0xFF;
 uint8_t pinadc[4][6];
+uint8_t pindisp[4];
 
 /// initialization
 void init_disp(void)
 {
     // clear array
     memset(pinadc,0,sizeof(uint8_t)*6*4);
+    memset(pindisp,0,sizeof(uint8_t)*4);
     // pin change interrupt on multiplexer pins PD2 - PD7
     PCMSK2 = 0x3C; // PCINT21 .. PCINT18
     PCICR = (1<<PCIE2);
@@ -89,7 +93,10 @@ SIGNAL (ADC_vect)
     uint8_t mux = ADMUX&0x0F;
     if ((mpin<4) || (mux<6))
     {
-        pinadc[mpin][mux]=ADCH;
+        uint8_t adc_value = ADCH;
+        pinadc[mpin][mux]=adc_value;
+        if (adc_value<DISP_ADC_TRASHOLD) pindisp[mpin] |=  (1<<mux);
+        else                             pindisp[mpin] &= ~(1<<mux);
         mux++;
         ADMUX&=0xF0;
         if (mux<6)
