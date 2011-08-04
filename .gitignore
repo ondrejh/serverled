@@ -8,4 +8,7 @@ serverradio/fw/*.layout
 serverradio/fw/*.cbTemp
 serverradio/sw/radio
 serverradio/sw/radio.o
+<<<<<<< HEAD
 serverradio/sw/radio.layout
+=======
+>>>>>>> de12ca9d2f317b2d7d2c5b3c16177312ebe8327e

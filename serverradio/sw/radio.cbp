@@ -3,7 +3,10 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="radio" />
+<<<<<<< HEAD
 		<Option makefile_is_custom="1" />
+=======
+>>>>>>> de12ca9d2f317b2d7d2c5b3c16177312ebe8327e
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -23,10 +26,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+<<<<<<< HEAD
 		<Unit filename="Makefile" />
 		<Unit filename="radio.c">
 			<Option compilerVar="CC" />
 		</Unit>
+=======
+>>>>>>> de12ca9d2f317b2d7d2c5b3c16177312ebe8327e
 		<Extensions>
 			<code_completion />
 			<debugger />
