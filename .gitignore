@@ -6,3 +6,5 @@ serverradio/fw/*.eep
 serverradio/fw/*.elf
 serverradio/fw/*.layout
 serverradio/fw/*.cbTemp
+serverradio/sw/radio
+serverradio/sw/radio.o

@@ -117,7 +117,8 @@ int txrx(unsigned int f, char *txbuf, char *rxbuf)
         i = read(f,rxbuf,BUFLENGTH);
         if (i>0)
         {
-            rxbuf[i]='\0';
+            if (rxbuf[i-1]=='\n') rxbuf[i-1]='\0';
+            else rxbuf[i]='\0';
             return i;
         }
         time(&now_t);
