@@ -53,7 +53,21 @@ void uart_print_uint8(uint8_t b)
 {
     uart_putch(i2hex((b>>4)&0x0F));
     uart_putch(i2hex(b&0x0F));
-    uart_putch(' ');
+    //uart_putch(' ');
+}
+
+void uart_print_disp(uint16_t val)
+{
+    uint8_t d3,d2,d1,d0;
+    d3 = (uint16_t)val/1000;
+    d2 = (uint16_t)val%1000/100;
+    d1 = (uint16_t)val%100/10;
+    d0 = (uint16_t)val%10;
+    if (d3>0) uart_putch(i2hex(d3));
+    uart_putch(i2hex(d2));
+    uart_putch(i2hex(d1));
+    uart_putch('.');
+    uart_putch(i2hex(d0));
 }
 
 // put char function
@@ -151,37 +165,6 @@ void proceed_message(void)
             uart_puts(VERSION);
             return;
         }
-        // PRES BUTTON
-        if ((len==MSGLEN_PRESB+1) && (strncmp(rx_buff,MSG_PRESB,MSGLEN_PRESB)==0))
-        {
-            unsigned int b = 0xFF;
-            if (sscanf(&rx_buff[MSGLEN_PRESB],"%01X",&b)==1)
-                if (presb==-1)
-                    presb=b;
-        }
-        // DISPADC
-        if ((len==MSGLEN_DISPADC) && (strncmp(rx_buff,MSG_DISPADC,MSGLEN_DISPADC)==0))
-        {
-            int i,j;
-            for (j=0;j<4;j++)
-            {
-                for (i=0;i<6;i++) uart_print_uint8(pinadc[j][i]);
-                uart_putch('\n');
-            }
-            return;
-        }
-        // ECHO ON (set echo on)
-        if ((len==MSGLEN_ECHO_ON) && (strncmp(rx_buff,MSG_ECHO_ON,MSGLEN_ECHO_ON)==0))
-        {
-            echo = true;
-            return;
-        }
-        // ECHO OFF (set echo off)
-        if ((len==MSGLEN_ECHO_OFF) && (strncmp(rx_buff,MSG_ECHO_OFF,MSGLEN_ECHO_OFF)==0))
-        {
-            echo = false;
-            return;
-        }
         // PWR (get power state)
         if ((len==MSGLEN_PWR) && (strncmp(rx_buff,MSG_PWR,MSGLEN_PWR)==0))
         {
@@ -199,6 +182,58 @@ void proceed_message(void)
         if ((len==MSGLEN_PWR_OFF) && (strncmp(rx_buff,MSG_PWR_OFF,MSGLEN_PWR_OFF)==0))
         {
             PWR_OFF();
+            return;
+        }
+        // DISPADC
+        if ((len==MSGLEN_DISPADC) && (strncmp(rx_buff,MSG_DISPADC,MSGLEN_DISPADC)==0))
+        {
+            int i,j;
+            for (j=0;j<4;j++)
+            {
+                for (i=0;i<6;i++) uart_print_uint8(pinadc[j][i]);
+                uart_putch(',');
+            }
+            uart_putch('\n');
+            return;
+        }
+        // DISPPIN
+        if ((len==MSGLEN_DISPPIN) && (strncmp(rx_buff,MSG_DISPPIN,MSGLEN_DISPPIN)==0))
+        {
+            int i;
+            for (i=0;i<4;i++) uart_print_uint8(pindisp[i]);
+            uart_putch('\n');
+            return;
+        }
+        // DISP
+        if ((len==MSGLEN_DISP) && (strncmp(rx_buff,MSG_DISP,MSGLEN_DISP)==0))
+        {
+            uart_print_disp(disp_value);
+            uart_putch('\n');
+        }
+        // ECHO ON (set echo on)
+        if ((len==MSGLEN_ECHO_ON) && (strncmp(rx_buff,MSG_ECHO_ON,MSGLEN_ECHO_ON)==0))
+        {
+            echo = true;
+            return;
+        }
+        // ECHO OFF (set echo off)
+        if ((len==MSGLEN_ECHO_OFF) && (strncmp(rx_buff,MSG_ECHO_OFF,MSGLEN_ECHO_OFF)==0))
+        {
+            echo = false;
+            return;
+        }
+        // PRES BUTTON
+        if ((len==MSGLEN_PRESB+1) && (strncmp(rx_buff,MSG_PRESB,MSGLEN_PRESB)==0))
+        {
+            unsigned int b = 0xFF;
+            if (sscanf(&rx_buff[MSGLEN_PRESB],"%01X",&b)==1)
+            {
+                if ((b&0x01)!=0) btn_down(0); else btn_up(0);
+                if ((b&0x02)!=0) btn_down(1); else btn_up(1);
+                if ((b&0x04)!=0) btn_down(2); else btn_up(2);
+                presb=b;
+                return;
+            }
             return;
         }
     }

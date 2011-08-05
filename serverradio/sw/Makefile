@@ -2,6 +2,7 @@ CC=gcc
 CFLAGS=-I.
 DEPS=
 OBJ=radio.o
+TARGET=radio
 
 REMOVE = rm -f
 
@@ -11,6 +12,7 @@ REMOVE = rm -f
 radio: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
 
-Release: radio
+Release: $(TARGET)
 
-cleanRelease:
+cleanRelease: $(TARGET)
+	rm $(TARGET).o $(TARGET)

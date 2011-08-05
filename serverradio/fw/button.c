@@ -10,10 +10,10 @@
 
 #include "button.h"
 
-#define BTN_PRESS_TIME 20
-uint8_t btn_timer = 0;
+#define MAX_BTN_PRESS_TIME 500
+uint16_t btn_timer = 0;
 
-int8_t presb = -1;
+uint8_t presb = 0;
 
 /// button down (if btn not exist return -1 else return 0)
 int8_t btn_down(uint8_t btn)
@@ -22,14 +22,17 @@ int8_t btn_down(uint8_t btn)
     {
         case 0:
             DDRD |= 0x40;
+            PORTD &= ~0x40;
             return 0;
             break;
         case 1:
             DDRD |= 0x80;
+            PORTD &= ~0x80;
             return 0;
             break;
         case 2:
             DDRB |= 0x01;
+            PORTB &= ~0x01;
             return 0;
             break;
         default:
@@ -61,15 +64,15 @@ int8_t btn_up(uint8_t btn)
     }
 }
 
-/// press button loop function
+/*/// press button loop function
 void press_button_wait(uint8_t btn)
 {
     while (press_button(btn)!=0) {};
 }
 
-/** press button function
+ press button function
     press and hold defined button for constant time */
-int8_t press_button(uint8_t btn)
+/*int8_t press_button(uint8_t btn)
 {
     static uint8_t btn_pressed = 0;
     static bool on_waiting = false;
@@ -96,7 +99,7 @@ int8_t press_button(uint8_t btn)
 
     if (btn==btn_pressed) return 1; // indicate waiting
     return -1; // error value
-}
+}*/
 
 /// init button timer
 void init_timer(void)
@@ -111,5 +114,16 @@ void init_timer(void)
 /// timer interrupt
 SIGNAL (TIMER0_COMPA_vect)
 {
-    if (btn_timer) btn_timer--;
+    if (presb==0) btn_timer=MAX_BTN_PRESS_TIME;
+    if (btn_timer)
+    {
+        btn_timer--;
+        if (btn_timer==0)
+        {
+            btn_up(0);
+            btn_up(1);
+            btn_up(2);
+            presb=0;
+        }
+    }
 }

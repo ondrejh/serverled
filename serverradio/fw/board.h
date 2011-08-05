@@ -4,7 +4,7 @@
 #define _BOARD_H
 
 #define DEVICE ((const char *)("Arduino FM transmitter"))
-#define VERSION ((const char *)("FW "__DATE__" DEBUG\n"))
+#define VERSION ((const char *)("FW "__DATE__" DEBUG"))
 
 /// radio power on output PB2 (active high)
 #define PWR ((PORTB&0x02)!=0)
