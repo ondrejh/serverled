@@ -1,0 +1,17 @@
+Arduino FM transmitter program:
+
+I could be used to controll arduino FM transmitter HW.
+It can power ON/OFF device, reads its status (from display) and tune frequency.
+
+Examples of use:
+    Power ON device:
+        radio ON
+    Power OFF device:
+        radio OFF
+    Tune frequency (103.0MHz for example):
+        radio TUNE103.0
+    Get status:
+        radio
+
+Aditional flags:
+    -p /dev/ttyUSB1 ... changes communication port
