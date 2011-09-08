@@ -51,7 +51,7 @@ STK500-2 = $(STK500) -d$(MCU_TARGET) -ms -q -lCF -LCF -cUSB -I200kHz -s -wt
 OBJ        = $(PROGRAM).o
 OPTIMIZE   = -O2
 
-DEFS       = 
+DEFS       =
 LIBS       =
 
 CC         = avr-gcc
@@ -64,6 +64,8 @@ override LDFLAGS       = -Wl,$(LDSECTION)
 
 OBJCOPY        = avr-objcopy
 OBJDUMP        = avr-objdump
+
+Release: atmega328_f737_isp
 
 all:
 
@@ -129,7 +131,7 @@ pro20_isp: isp
 
 diecimila: TARGET = diecimila
 diecimila: CFLAGS += '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1'
-diecimila: AVR_FREQ = 16000000L 
+diecimila: AVR_FREQ = 16000000L
 diecimila: $(PROGRAM)_diecimila.hex
 
 diecimila_isp: diecimila
@@ -154,7 +156,7 @@ ng_isp: isp
 atmega328: TARGET = atmega328
 atmega328: MCU_TARGET = atmega328p
 atmega328: CFLAGS += '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600
-atmega328: AVR_FREQ = 16000000L 
+atmega328: AVR_FREQ = 16000000L
 atmega328: LDSECTION  = --section-start=.text=0x7800
 atmega328: $(PROGRAM)_atmega328.hex
 
@@ -169,7 +171,7 @@ atmega328_isp: isp
 atmega328_pro8: TARGET = atmega328_pro_8MHz
 atmega328_pro8: MCU_TARGET = atmega328p
 atmega328_pro8: CFLAGS += '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600 -DDOUBLE_SPEED
-atmega328_pro8: AVR_FREQ = 8000000L 
+atmega328_pro8: AVR_FREQ = 8000000L
 atmega328_pro8: LDSECTION  = --section-start=.text=0x7800
 atmega328_pro8: $(PROGRAM)_atmega328_pro_8MHz.hex
 
@@ -181,10 +183,25 @@ atmega328_pro8_isp: LFUSE = FF
 atmega328_pro8_isp: EFUSE = 05
 atmega328_pro8_isp: isp
 
+atmega328_f737: TARGET = atmega328_7M3728Hz
+atmega328_f737: MCU_TARGET = atmega328p
+atmega328_f737: CFLAGS += '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600
+atmega328_f737: AVR_FREQ = 7372800L
+atmega328_f737: LDSECTION = --section-start=.text=0x7800
+atmega328_f737: $(PROGRAM)_atmega328_7M3728Hz.hex
+
+atmega328_f737_isp: atmega328_f737
+atmega328_f737_isp: TARGET = atmega328_7M3728Hz
+atmega328_f737_isp: MCU_TARGET = atmega328p
+atmega328_f737_isp: HFUSE = DA
+atmega328_f737_isp: LFUSE = FD
+atmega328_f737_isp: EFUSE = 05
+atmega328_f737_isp: isp
+
 mega: TARGET = atmega1280
 mega: MCU_TARGET = atmega1280
 mega: CFLAGS += '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=0' -DBAUD_RATE=57600
-mega: AVR_FREQ = 16000000L 
+mega: AVR_FREQ = 16000000L
 mega: LDSECTION  = --section-start=.text=0x1F000
 mega: $(PROGRAM)_atmega1280.hex
 
@@ -207,6 +224,8 @@ isp-stk500: $(PROGRAM)_$(TARGET).hex
 %.elf: $(OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 
+cleanRelease: clean
+
 clean:
 	rm -rf *.o *.elf *.lst *.map *.sym *.lss *.eep *.srec *.bin *.hex
 
@@ -221,4 +240,4 @@ clean:
 
 %.bin: %.elf
 	$(OBJCOPY) -j .text -j .data -O binary $< $@
-	
+
