@@ -16,25 +16,35 @@
 #include <string.h>
 //#include <avr/wdt.h>
 
+#include <spi.h>
+
 /** global variables */
 
-/// all leds green
+/*/// all leds green
 void all_leds_green(void)
 {
-    // init spi
-    DDRB |= (1<<PIN2)|(1<<PIN3)|(1<<PIN5);
-    PORTB &= ~((1<<PIN2)|(1<<PIN3)|(1<<PIN5));
-    SPCR = (1<<SPE) | (1<<MSTR);
-    SPDR = 0xAA;
-    while ((SPSR&(1<<SPIF))==0) {};
-    SPDR = 0xAA;
-    while ((SPSR&(1<<SPIF))==0) {};
-    SPDR = 0xAA;
-    while ((SPSR&(1<<SPIF))==0) {};
-    SPDR = 0xAA;
-    while ((SPSR&(1<<SPIF))==0) {};
-    PORTB^=(1<<PIN2);
-    PORTB^=(1<<PIN2);
+    // fill 0xAA into spi data
+    memset(spi_data,0xAA,SPI_DATALEN);
+}
+
+/// set led on position (status 0..off, 1..red, 2..green, 3..off/high)
+void set_led(uint8_t pos, uint8_t status)
+{
+    // test input consistency
+    if (pos>15) return;
+    if (status>3) return;
+
+    uint8_t shift = (pos%4)*2;
+    uint8_t spi_pos = pos/4;
+    spi_data[spi_pos] = (spi_data[spi_pos]&~(0x03<<shift))|(status<<shift);
+}*/
+
+/// set led pwm
+void set_led_pwm(uint8_t pos, uint8_t green_pwm, uint8_t red_pwm)
+{
+    if (pos>15) return;
+    leds_green_val[pos]=green_pwm;
+    leds_red_val[pos]=red_pwm;
 }
 
 /** main function */
@@ -44,8 +54,13 @@ int main(void)
     //wdt_enable(WDTO_8S);
 
 	// initialization
-	all_leds_green();
-	//sei();
+	init_spi();
+	sei();
+
+    // test leds
+    set_led_pwm(15,128,0);
+    set_led_pwm(3,0,255);
+    set_led_pwm(8,64,64);
 
     // main loop
     while(1)

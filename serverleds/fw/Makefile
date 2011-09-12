@@ -8,7 +8,7 @@
 MCU = atmega328p
 FORMAT = ihex
 TARGET = leds
-SRC = main.c
+SRC = main.c spi.c
 ASRC =
 OPT = s
 BASEADDR = 0x0000

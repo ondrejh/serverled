@@ -13,3 +13,5 @@ serverradio/sw/radio.layout
 =======
 >>>>>>> de12ca9d2f317b2d7d2c5b3c16177312ebe8327e
 serverleds/fw/*.o
+serverleds/fw/*.eep
+serverleds/fw/*.elf
