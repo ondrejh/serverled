@@ -16,7 +16,7 @@
 #include <string.h>
 //#include <avr/wdt.h>
 
-#include <spi.h>
+#include "spi.h"
 
 /** global variables */
 

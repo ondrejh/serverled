@@ -15,3 +15,5 @@ serverradio/sw/radio.layout
 serverleds/fw/*.o
 serverleds/fw/*.eep
 serverleds/fw/*.elf
+serverleds/fw/leds.layout
+serverleds/fw/leds.layout.cbTemp
