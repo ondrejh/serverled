@@ -61,6 +61,7 @@ int main(void)
     set_led_pwm(15,128,0);
     set_led_pwm(3,0,255);
     set_led_pwm(8,64,64);
+    set_led_pwm(0,255,0);
 
     // main loop
     while(1)
