@@ -14,7 +14,8 @@ OPT = s
 BASEADDR = 0x0000
 
 # arduino port settings
-PORT = /dev/ttyUSB0
+# PORT = /dev/ttyUSB0
+PORT = COM7
 BAUDRATE = 115200
 
 # Name of this Makefile (used for "make depend").

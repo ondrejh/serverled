@@ -58,10 +58,11 @@ int main(void)
 	sei();
 
     // test leds
-    set_led_pwm(15,128,0);
-    set_led_pwm(3,0,255);
-    set_led_pwm(8,64,64);
-    set_led_pwm(0,255,0);
+    {
+        int i;
+        for (i=0;i<8;i++) set_led_pwm(i,2*i+1,0);
+        for (i=15;i>7;i--) set_led_pwm(i,0,2*(15-i)+1);
+    }
 
     // main loop
     while(1)

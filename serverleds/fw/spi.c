@@ -67,14 +67,15 @@ SIGNAL (SPI_STC_vect)
         uint8_t i;
         for (i=0;i<LEDS;i++)
         {
-            uint8_t shift=(i/4)*2;
+            uint8_t shift=6-((i%4)*2);
             uint8_t pos=i/4;
-            if (pwm_cnt>=ledsgrn_mirr[i]) spi_data[pos]&=0xFD<<shift;
-            if (pwm_cnt>(~ledsred_mirr[i])) spi_data[pos]|=0x01<<shift;
+            if (pwm_cnt>=ledsgrn_mirr[i]) spi_data[pos]&=~(0x02<<shift); else spi_data[pos]|=0x02<<shift;
+            //if (pwm_cnt>(~ledsred_mirr[i]&0x0F)) spi_data[pos]&=~(0x01<<shift); else spi_data[pos]|=0x01<<shift;
         }
 
         // increase pwm counter
         pwm_cnt++;
+        pwm_cnt&=0x0F;
     }
     // transmitt next
     SPDR = spi_data[spi_ptr++];
