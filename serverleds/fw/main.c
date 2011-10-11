@@ -60,8 +60,8 @@ int main(void)
     // test leds
     {
         int i;
-        for (i=0;i<8;i++) set_led_pwm(i,2*i+1,0);
-        for (i=15;i>7;i--) set_led_pwm(i,0,2*(15-i)+1);
+        for (i=0;i<16;i++) set_led_pwm(i,i,i);
+        //set_led_pwm(7,15,15);
     }
 
     // main loop

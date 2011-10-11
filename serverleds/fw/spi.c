@@ -70,7 +70,7 @@ SIGNAL (SPI_STC_vect)
             uint8_t shift=6-((i%4)*2);
             uint8_t pos=i/4;
             if (pwm_cnt>=ledsgrn_mirr[i]) spi_data[pos]&=~(0x02<<shift); else spi_data[pos]|=0x02<<shift;
-            //if (pwm_cnt>(~ledsred_mirr[i]&0x0F)) spi_data[pos]&=~(0x01<<shift); else spi_data[pos]|=0x01<<shift;
+            if (pwm_cnt<=((~ledsred_mirr[i])&0x0F)) spi_data[pos]&=~(0x01<<shift); else spi_data[pos]|=0x01<<shift;
         }
 
         // increase pwm counter
