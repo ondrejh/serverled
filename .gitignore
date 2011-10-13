@@ -17,3 +17,7 @@ serverleds/fw/*.eep
 serverleds/fw/*.elf
 serverleds/fw/leds.layout
 serverleds/fw/leds.layout.cbTemp
+serverradio/fw_ns73m/bin/
+serverradio/fw_ns73m/obj/
+serverradio/fw_ns73m/ns73m.depend
+serverradio/fw_ns73m/ns73m.layout
