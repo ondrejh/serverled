@@ -8,7 +8,10 @@
 #define DEV_NS73M 0xCC
 #define ADR_NS73M 0x02
 
-
+#define LED_INIT() {DDRB|=(1<<PIN5);}
+#define LED_ON() {PORTB|=(1<<PIN5);}
+#define LED_OFF() {PORTB&=~(1<<PIN5);}
+#define LED ((PORTB&(1<<PIN5))!=0)
 
 uint8_t ns73m_write_reg(uint8_t reg_address, uint8_t reg_value)
 {
@@ -29,6 +32,8 @@ uint8_t ns73m_write_reg(uint8_t reg_address, uint8_t reg_value)
 
 int main(void)
 {
+    LED_INIT();
+    LED_ON();
 
     // Initialization phase
     i2c_init();
