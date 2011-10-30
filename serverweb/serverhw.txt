@@ -1,0 +1,5 @@
+Základní deska: INTEL D525MW Mount Washington
+Paměť: 4GB (KIT 2x2GB) SO-DIMM DDR3 1333MHz CL9 PATRIOT Signature Line
+Harddisk 1: WESTERN DIGITAL Caviar Green 1000GB, SATA II, 64MB cache, IntelliPower, 8.9ms, WD10EARS
+Harddisk 2: 250GB 2.5" z laptopu Dell
+Case: CFI A6819 Slim mini ITX černý, 1x 5.25", 1x 3.5" HDD, 2x USB2.0, HD audio, 150W zdroj
