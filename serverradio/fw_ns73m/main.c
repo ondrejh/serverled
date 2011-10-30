@@ -11,6 +11,7 @@
 #define LED_INIT() {DDRB|=(1<<PIN5);}
 #define LED_ON() {PORTB|=(1<<PIN5);}
 #define LED_OFF() {PORTB&=~(1<<PIN5);}
+#define LED_SWAP() {PORTB^=(1<<PIN5);}
 #define LED ((PORTB&(1<<PIN5))!=0)
 
 uint8_t ns73m_write_reg(uint8_t reg_address, uint8_t reg_value)

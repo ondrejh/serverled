@@ -22,3 +22,7 @@ serverradio/fw_ns73m/obj/
 serverradio/fw_ns73m/ns73m.depend
 serverradio/fw_ns73m/ns73m.layout
 serverradio/fw_ns73m/ns73m.layout.cbTemp
+serverradio/fw_ns73m/i2cmaster.o
+serverradio/fw_ns73m/main.o
+serverradio/fw_ns73m/radio.eep
+serverradio/fw_ns73m/radio.elf
