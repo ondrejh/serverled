@@ -17,6 +17,7 @@
 //#include <avr/wdt.h>
 
 #include "spi.h"
+#include "uart.h"
 
 /** global variables */
 
@@ -30,6 +31,7 @@ int main(void)
 
 	// initialization
 	init_spi();
+	init_uart();
 	sei();
 
     // leds off
@@ -38,13 +40,14 @@ int main(void)
     /*// test leds
     {
         int i;
-        for (i=0;i<16;i++) set_led_pwm(i,i,i);
+        for (i=0;i<16;i++) set_led_pwm(i,0,i);
         //set_led_pwm(7,15,15);
     }*/
 
     // main loop
     while(1)
     {
+        uartpooling();
     }
 
     // unexpected programm end

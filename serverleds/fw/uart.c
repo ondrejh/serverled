@@ -19,7 +19,7 @@ uint8_t txbuf_outptr = 0;
 int8_t hexc2int(char c)
 {
     if ((c>='0') && (c<='9')) return c-'0'; // 0 - 9
-    if ((c>='A') && (c<='F')) return c-('A'+10); // A - F
+    if ((c>='A') && (c<='F')) return c-'A'+10; // A - F
     return -1; // error (no hex char)
 }
 
@@ -34,7 +34,7 @@ char int2hexc(int8_t i)
 /// uart putchar function
 int8_t uart_putchar(char c)
 {
-    if ((UCSR0B&((1<<UDRE0)|(1<<TXC0)))==(1<<UDRE0)) // if no transmition in progress -> start transmition
+    if ((UCSR0A&((1<<UDRE0)|(1<<TXC0)))==(1<<UDRE0)) // if no transmition in progress -> start transmition
     {
         UDR0 = c;
         return 0;
@@ -51,28 +51,34 @@ int8_t uart_putchar(char c)
 /// uart initialization
 void init_uart(void)
 {
+    UCSR0B = /*(1<<RXCIE0) | (1<<TXCIE0) |*/ (1<<TXEN0) | (1<<RXEN0);
     UBRR0 = 3;  // 115.2kBaud / 7.3728MHz
-    UCSR0B = (1<<RXCIE0) | (1<<TXCIE0) | (1<<TXEN0) | (1<<RXEN0);
+}
+
+void uartpooling(void)
+{
+    if (UCSR0A&(1<<RXC0)) usart_rx();
+    if (UCSR0A&(1<<TXC0)) usart_tx();
 }
 
 /// receive complette interrupt handler
-SIGNAL (USART_RX_vect)
+//SIGNAL (USART_RX_vect)
+void usart_rx(void)
 {
-    uint8_t c;
+    uint8_t ucsra = UCSR0A;
+    uint8_t c = UDR0;
+    UCSR0A|=1<<RXC0;
+
     static int8_t rxstat=0;
     static uint8_t rxbuffer[32];
     static uint8_t rxptr=0;
 
     // test error flags
-    if (UCSR0A&((1<<FE0)|(1<<DOR0)|(1<<UPE0)))
-    {
-        c = UDR0; // read input buffer (to waste it)
-        return;
-    }
+    if (ucsra&((1<<FE0)|(1<<DOR0)|(1<<UPE0)))
+        return; // input error
     else
     {
-        c = UDR0; // read input buffer
-        if (c=='s') rxstat=0;
+        if ((c=='s') || (c=='r')) rxstat=0;
         switch (rxstat)
         {
             case 0: // wait command
@@ -81,10 +87,16 @@ SIGNAL (USART_RX_vect)
                     rxptr=0;
                     rxstat++;
                 }
+                else if (c=='r') // read led command
+                {
+                    rxptr=0;
+                    rxstat=2;
+                }
                 break;
             case 1: // wait led data or command end
-                if (c=='\n') // command end
+                if ((c=='\n')||(c=='\r')) // command end
                 {
+                    //uart_putchar(int2hexc(rxptr));
                     if (rxptr==32) // set all leds
                     {
                         int8_t i;
@@ -108,11 +120,10 @@ SIGNAL (USART_RX_vect)
                 }
                 break;
             case 2: // wait pointer or command end
-                if (c=='\n')
+                if ((c=='\n')||(c=='\r'))
                 {
                     if (rxptr==1) // return one led status
                     {
-                        uart_putchar(int2hexc(rxbuffer[0])); // led pointer
                         uart_putchar(int2hexc(leds_green_val[rxbuffer[0]])); // green value
                         uart_putchar(int2hexc(leds_red_val[rxbuffer[0]])); // red value
                         rxstat=0;
@@ -148,8 +159,10 @@ SIGNAL (USART_RX_vect)
 }
 
 /// receive complette interrupt handler
-SIGNAL (USART_TX_vect)
+//SIGNAL (USART_TX_vect)
+void usart_tx(void)
 {
+    UCSR0A|=1<<TXC0;
     if (txbuf_outptr!=txbuf_inptr)
     {
         UDR0=txbuffer[txbuf_outptr++];

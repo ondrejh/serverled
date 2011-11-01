@@ -26,3 +26,4 @@ serverradio/fw_ns73m/i2cmaster.o
 serverradio/fw_ns73m/main.o
 serverradio/fw_ns73m/radio.eep
 serverradio/fw_ns73m/radio.elf
+serverleds/btl/arduino_bootloader.layout
