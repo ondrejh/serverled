@@ -26,6 +26,23 @@ uint8_t leds_red_val[LEDS] = {0x00,0x00,0x00,0x00,
 uint8_t ledsgrn_mirr[LEDS]; // green leds pwm array mirror
 uint8_t ledsred_mirr[LEDS]; // red leds pwm array mirror (copied at the pwm cycle startup)
 
+/// set led pwm
+int8_t set_led_pwm(uint8_t pos, uint8_t green_pwm, uint8_t red_pwm)
+{
+    if (pos>15) return -1;
+    leds_green_val[pos]=green_pwm;
+    leds_red_val[pos]=red_pwm;
+    return 0;
+}
+
+/// all leds off
+int8_t all_leds_off(void)
+{
+    uint8_t i;
+    for (i=0;i<16;i++) set_led_pwm(i,0,0);
+    return 0;
+}
+
 /// spi initialization
 void init_spi(void)
 {

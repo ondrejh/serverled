@@ -31,6 +31,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="spi.h" />
+		<Unit filename="uart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="uart.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

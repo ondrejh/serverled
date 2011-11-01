@@ -20,34 +20,9 @@
 
 /** global variables */
 
-/*/// all leds green
-void all_leds_green(void)
-{
-    // fill 0xAA into spi data
-    memset(spi_data,0xAA,SPI_DATALEN);
-}
+/** functions */
 
-/// set led on position (status 0..off, 1..red, 2..green, 3..off/high)
-void set_led(uint8_t pos, uint8_t status)
-{
-    // test input consistency
-    if (pos>15) return;
-    if (status>3) return;
-
-    uint8_t shift = (pos%4)*2;
-    uint8_t spi_pos = pos/4;
-    spi_data[spi_pos] = (spi_data[spi_pos]&~(0x03<<shift))|(status<<shift);
-}*/
-
-/// set led pwm
-void set_led_pwm(uint8_t pos, uint8_t green_pwm, uint8_t red_pwm)
-{
-    if (pos>15) return;
-    leds_green_val[pos]=green_pwm;
-    leds_red_val[pos]=red_pwm;
-}
-
-/** main function */
+/** main programm body */
 int main(void)
 {
     //wdt_reset();
@@ -57,12 +32,15 @@ int main(void)
 	init_spi();
 	sei();
 
-    // test leds
+    // leds off
+    all_leds_off();
+
+    /*// test leds
     {
         int i;
         for (i=0;i<16;i++) set_led_pwm(i,i,i);
         //set_led_pwm(7,15,15);
-    }
+    }*/
 
     // main loop
     while(1)

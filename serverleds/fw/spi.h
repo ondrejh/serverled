@@ -13,6 +13,12 @@ uint8_t spi_data[SPI_DATALEN];
 uint8_t leds_green_val[LEDS];
 uint8_t leds_red_val[LEDS];
 
+/// set led pwm
+int8_t set_led_pwm(uint8_t pos, uint8_t green_pwm, uint8_t red_pwm);
+
+/// all leds off
+int8_t all_leds_off(void);
+
 /// spi initialization
 void init_spi(void);
 

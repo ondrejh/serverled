@@ -8,14 +8,14 @@
 MCU = atmega328p
 FORMAT = ihex
 TARGET = leds
-SRC = main.c spi.c
+SRC = main.c spi.c uart.c
 ASRC =
 OPT = s
 BASEADDR = 0x0000
 
 # arduino port settings
-PORT = /dev/ttyUSB0
-#PORT = COM7
+#PORT = /dev/ttyUSB0
+PORT = COM7
 BAUDRATE = 115200
 
 # Name of this Makefile (used for "make depend").
