@@ -47,11 +47,13 @@ int main(void)
     // main loop
     while(1)
     {
-        //#ifndef UART_USE_INTERRUPT
+        static int cnt;
         uartpolling();
-        //#endif
+        cnt++;
+        if (cnt>20) cnt++;
     }
 
     // unexpected programm end
+    UDR0 = '?';
     return -1;
 }
