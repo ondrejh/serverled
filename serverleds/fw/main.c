@@ -47,7 +47,9 @@ int main(void)
     // main loop
     while(1)
     {
-        uartpooling();
+        //#ifndef UART_USE_INTERRUPT
+        uartpolling();
+        //#endif
     }
 
     // unexpected programm end

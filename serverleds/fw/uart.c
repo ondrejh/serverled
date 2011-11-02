@@ -51,32 +51,47 @@ int8_t uart_putchar(char c)
 /// uart initialization
 void init_uart(void)
 {
-    UCSR0B = /*(1<<RXCIE0) | (1<<TXCIE0) |*/ (1<<TXEN0) | (1<<RXEN0);
+    DDRD|=(1<<PIN1);
+    DDRD&=~(1<<PIN0);
+    #ifdef UART_USE_INTERRUPT
+      UCSR0B = (1<<RXCIE0) | (1<<TXCIE0) | (1<<TXEN0) | (1<<RXEN0);
+    #else
+      UCSR0B = /*(1<<RXCIE0) | (1<<TXCIE0) |*/ (1<<TXEN0) | (1<<RXEN0);
+    #endif
+
     UBRR0 = 3;  // 115.2kBaud / 7.3728MHz
 }
 
-void uartpooling(void)
+/// uart polling function
+void uartpolling(void)
 {
+#ifndef UART_USE_INTERRUPT
     if (UCSR0A&(1<<RXC0)) usart_rx();
     if (UCSR0A&(1<<TXC0)) usart_tx();
+#endif
 }
 
 /// receive complette interrupt handler
-//SIGNAL (USART_RX_vect)
+#ifdef UART_USE_INTERRUPT
+SIGNAL (USART_RX_vect)
+#else
 void usart_rx(void)
+#endif
 {
     uint8_t ucsra = UCSR0A;
     uint8_t c = UDR0;
+    #ifndef UART_USE_INTERRUPT
     UCSR0A|=1<<RXC0;
+    #endif
 
     static int8_t rxstat=0;
     static uint8_t rxbuffer[32];
     static uint8_t rxptr=0;
 
     // test error flags
-    if (ucsra&((1<<FE0)|(1<<DOR0)|(1<<UPE0)))
+    /*if (ucsra&((1<<FE0)|(1<<DOR0)|(1<<UPE0)))
         return; // input error
-    else
+    else*/
     {
         if ((c=='s') || (c=='r')) rxstat=0;
         switch (rxstat)
@@ -159,12 +174,17 @@ void usart_rx(void)
 }
 
 /// receive complette interrupt handler
-//SIGNAL (USART_TX_vect)
+#ifdef UART_USE_INTERRUPT
+SIGNAL (USART_TX_vect)
+{
+#else
 void usart_tx(void)
 {
-    UCSR0A|=1<<TXC0;
-    if (txbuf_outptr!=txbuf_inptr)
+    UCSR0A|=1<<TXC0; // clear tx complette flag
+#endif
+    if (txbuf_outptr!=txbuf_inptr) // test if something in buffer
     {
+        // send next char and increase buffer pointer
         UDR0=txbuffer[txbuf_outptr++];
         if (txbuf_outptr>=TXBUFFLEN) txbuf_outptr=0;
     }
