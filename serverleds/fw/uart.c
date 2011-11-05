@@ -53,8 +53,9 @@ int8_t uart_putchar(uint8_t c)
 void init_uart(void)
 {
     UCSR0B = (1<<RXCIE0) | (1<<TXCIE0) | (1<<TXEN0) | (1<<RXEN0);
-    UBRR0 = 3;  // 115.2kBaud / 7.3728MHz
-    //UBRR0 = 7;  // 57.6kBaud / 7.3728MHz
+    //UBRR0 = 3;  // 115.2kBaud / 7.3728MHz
+    UBRR0 = 7;  // 57.6kBaud / 7.3728MHz
+    //UBRR0 = 47; // 9.6kBaud / 7.3728MHz
 }
 
 /// receive complette interrupt handler
