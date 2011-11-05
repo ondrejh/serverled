@@ -11,12 +11,6 @@
 
 #define TXBUFFLEN 64
 
-#define RX_DONE ((UCSR0A&(1<<RXC0))!=0)
-#define RX_CLEAR() {UCSR0A|=(1<<RXC0);}
-#define TX_DONE ((UCSR0A&(1<<TXC0))!=0)
-#define TX_CLEAR() {UCSR0A|=1<<TXC0;}
-#define TX_DTE ((UCSR0A&(1<<UDRE0))!=0)
-
 uint8_t txbuffer[TXBUFFLEN];
 uint8_t txbuf_inptr = 0;
 uint8_t txbuf_outptr = 0;
@@ -40,37 +34,35 @@ uint8_t int2hexc(int8_t i)
 /// uart putchar function
 int8_t uart_putchar(uint8_t c)
 {
-    uint8_t next_bufptr = (txbuf_inptr+1);
+    // calculate buffer pointer
+    uint8_t next_bufptr = txbuf_inptr+1;
     if (next_bufptr>=TXBUFFLEN) next_bufptr=0;
-    if (next_bufptr==txbuf_outptr) // risk of buffer overflow
+    // test for risk of buffer overflow
+    if (next_bufptr==txbuf_outptr)
         return -1; // buffer full error
     txbuffer[txbuf_inptr]=c;
+    // test if its first char (if yes then start tx)
+    if (txbuf_outptr==txbuf_inptr) UDR0 = c;
+    // push buffer pointer
     txbuf_inptr=next_bufptr;
+    // return OK
     return 0;
 }
 
 /// uart initialization
 void init_uart(void)
 {
-    DDRD|=(1<<PIN1);
-    DDRD&=~(1<<PIN0);
-    UCSR0A = 0x00;
-    UCSR0B = /*(1<<RXCIE0) | (1<<TXCIE0) |*/ (1<<TXEN0) | (1<<RXEN0);
-    UCSR0C = 0x06;
-    //UBRR0 = 3;  // 115.2kBaud / 7.3728MHz
-    UBRR0 = 7;  // 57.6kBaud / 7.3728MHz
-}
-
-/// uart polling function
-void uartpolling(void)
-{
-    if (TX_DTE && (txbuf_inptr!=txbuf_outptr)) usart_tx();
-    if RX_DONE usart_rx();
+    UCSR0B = (1<<RXCIE0) | (1<<TXCIE0) | (1<<TXEN0) | (1<<RXEN0);
+    UBRR0 = 3;  // 115.2kBaud / 7.3728MHz
+    //UBRR0 = 7;  // 57.6kBaud / 7.3728MHz
 }
 
 /// receive complette interrupt handler
-void usart_rx(void)
+SIGNAL (USART_RX_vect)
+//void usart_rx(void)
 {
+    uint8_t c;
+
     static int8_t rxstat=0;
     static uint8_t rxbuffer[32];
     static uint8_t rxptr=0;
@@ -78,12 +70,12 @@ void usart_rx(void)
     // test error flags
     if (UCSR0A&((1<<FE0)|(1<<DOR0)|(1<<UPE0)))
     {
-        uint8_t c = UDR0;
+        c = UDR0;
         return; // input error
     }
     else
     {
-        uint8_t c = UDR0;
+        c = UDR0;
         if ((c=='s') || (c=='r')) rxstat=0;
         switch (rxstat)
         {
@@ -163,19 +155,19 @@ void usart_rx(void)
         }
         uart_putchar(c); // echo
     }
-
-    UCSR0A|=1<<RXC0;
 }
 
 /// receive complette interrupt handler
-void usart_tx(void)
+SIGNAL (USART_TX_vect)
+//void usart_tx(void)
 {
-    //UCSR0A|=1<<UDRE0; // clear tx complette flag
+    // calculate buffer pointer
+    uint8_t next_bufptr = txbuf_outptr+1;
+    if (next_bufptr>=TXBUFFLEN) next_bufptr=0;
+    // push buffer pointer
+    txbuf_outptr=next_bufptr;
 
-    if (txbuf_outptr!=txbuf_inptr) // test if something in buffer
-    {
-        // send next char and increase buffer pointer
-        UDR0=txbuffer[txbuf_outptr++];
-        if (txbuf_outptr>=TXBUFFLEN) txbuf_outptr=0;
-    }
+    // test if something left in the buffer (if any then transmitt it)
+    if (txbuf_outptr!=txbuf_inptr)
+        UDR0=txbuffer[txbuf_outptr];
 }

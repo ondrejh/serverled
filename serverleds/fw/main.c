@@ -47,13 +47,8 @@ int main(void)
     // main loop
     while(1)
     {
-        static int cnt;
-        uartpolling();
-        cnt++;
-        if (cnt>20) cnt++;
     }
 
     // unexpected programm end
-    UDR0 = '?';
     return -1;
 }

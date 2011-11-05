@@ -55,7 +55,7 @@ void init_spi(void)
     DDRB |= (1<<PIN2)|(1<<PIN3)|(1<<PIN5);
 
     // interrupt enable, enable, MSB first, master, fosc/2
-    SPCR = (1<<SPIE) | (1<<SPE) | (1<<MSTR) | (0<<SPR0);
+    SPCR = (1<<SPIE) | (1<<SPE) | (1<<MSTR) | (3<<SPR0);
     // start first transmition
     SPDR = spi_data[spi_ptr++];
 }
