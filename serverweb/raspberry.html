@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<!-- ==========================================================	-->
+<!--	Created by Devit Schizoper                          	-->
+<!--	Created HomePages http://LoadFoo.starzonewebhost.com   	-->
+<!--	Created Day 01.12.2006                              	-->
+<!-- ========================================================== -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs">
+<head>
+   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="content-language" content="cs">
+	<meta name="author" content="ondrej" />
+	<meta name="description" content="Site description" />
+	<meta name="keywords" content="key, words" />
+	<title>Home server</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+	<!-- <link rel="shortcut icon" href="favicon.ico" /> -->
+	<link rel="shortcut icon" href="debian.ico" />
+	<script type="text/javascript" src="js/textsizer.js"></script>
+	<script type="text/javascript" src="js/rel.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+<div id="top">
+<h2><a href="#" title="Back to main page">Debian Home Server</a></h2>
+<div id="menu">
+<ul>
+<li><a href="index.html">home</a></li>
+<li><a href="zprovozneni_mpd.html">about</a></li>
+<li><a href="#" class="current">raspberry</a></li>
+<li><a href="#">contact</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div style="float: right;"><a href="javascript:ts('body',1)">[+]</a> | <a
+href="javascript:ts('body',-1)">[-]</a></div>
+<div id="left">
+
+<h2>Raspberry PI</h2>
+  <p>V půlce července 2012 mi konečne přišel můj kousek <a href="http://www.raspberrypi.org/">RaspberryPI</a>, který jsem si objednával někdy na jaře. 
+  Vzal jsem si tedy dovolenou, na hlídaní dětí jsem si sehnal posily a šel jsem na to.</p>
+  <p><img src="img/RaspberryPi.jpg" alt="Raspberry Pi"></p>
+  <p>Čím jsem prošel (a nezapoměl zdokumentovat):
+    <ul>
+      <li>Instalace Raspbianu na SD kartu</li>
+      <li>Zprovoznění wifi s WPA2</li>
+    </ul>
+  </p>
+
+<h2>Instalace Raspbianu na SD kartu</h2>
+  <p>U přípravy SD karty jsem vycházel z návodu na <a href="http://www.linuxsoft.cz/article.php?id_article=1938">Linuxsoft.cz</a>.</p>
+  <p>Nejdříve je nutné stáhnout <a href="http://www.raspberrypi.org/downloads">image Raspbianu</a>.
+  Poté je možné pustit se do nahrávání na kartu.
+  Já jsem měl trochu problém hned z rozchozením čtečky karet.
+  Stará "šuplíková" čtečka mi nechodí a čtečka v mém Lenovo G570 jde i po <a href="http://ubuntuforums.org/archive/index.php/t-1798428.html">nahrání firmware</a> jen read only (ačkoli všem ostatním to asi chodí - viz odkaz), i když jsem ji <a href="https://www.google.com/url?q=http://michael-peeters.blogspot.com/2009/02/fixing-readonly-sd-card-reader-in.html&sa=U&ei=ip8KUMCnO8SQhQfh8pX9CQ&ved=0CA8QFjAFOBQ&client=internal-uds-cse&usg=AFQjCNF-hp2cv_a9Ty7tXoH_eR4b5b7X2g">profouk vyduchem</a> :-).
+  Nakonec se mi osvědčila miniaturní usb čtečka Kingston - kdo by byl to řekl.</p>
+  <p><img src="img/kingston_sd_reader.gif" alt="Čtečka"></p>
+  <p>Použité příkazy pro práci s SD kartou:
+  <ul>
+    <li>Výpis připojených disků: <code>df -h</code></li>
+    <li>Odpojení oddílů disku: <code>umount /dev/sdXx /dev/sdXy</code></li>
+    <li>Nahrání obrazu na disk: <code>dd if=soubor_s_obrazem of=/dev/sdX</code></li>
+    <li>Vytvoření obrazu disku (záloha): <code>dd if=/dev/sdX of=soubor_s_obrazem</code></li>
+  </ul></p>
+  <h3>Postup nahrání obrazu na SD kartu:</h3>
+  <p>V prvé řadě musíte vědět, kam vlastně chcete obraz nahrávat. Spustíte tedy příkaz
+  <ul><li><code>df -h</code></li></ul>
+  Poté připojíte čtečku nebo vložíte kartu, počkáte až se automaticky připojí a znovu zadáme příkaz <code>df</code>.
+  Rozdíl obou výpisů jsou oddíly disku, na který budeme nahrávat.
+  V mém případě šlo o <code>/dev/sdc1</code> a <code>/dev/sdc2</code> - na kartě jsou z předchozích pokusů dva oddíly.
+  Všechny připojené oddíly karty je nutné před nahráváním odpojit. Tedy příkaz
+  <ul><li><code>sudo umount /dev/sdc1 /dev/sdc2</code></li></ul>
+  A můžete nahrávat příkazem <ul><li><code>sudo dd if=2012-07-15-wheezy-raspbian.img of=/dev/sdc</code></li></ul>
+  Všiměte si, že se nesměruje na oddíl/y (třeba /dev/sdc1) ale na celý disk (/dev/sdc).
+  Všechna předchozí data z disku včetně původního rozdělení se samozřejmě odeberou do křemíkového pekla.
+  Nahrání disku trvá dost dlouho a vypadá to, jako že počítač nic nedělá - chce to čas a trpělivost (a kafe).</p>
+  <h3>Vytvoření zálohy (obrazu) SD karty:</h3>
+  <p>Stejným způsobem je možné vytvořit zálohu disku pro případ, že jste v experimentování se systémem někam dospěli a chcete si ten stav uložit, aby jste se měli kam vracet.
+  <ul><li><code>sudo dd if=/dev/sdc of=dnesni_porce_malin.img</code></li></ul>
+  I v tomto případě odpojuji oddíly SD karty, ale vlasně nevím jestli je to nutné (na kartu se nic nezapisuje).
+  Obraz disku zabírá tolik místa, kolik je alokovaná kapacita SD karty. Je proto vhodné jej zkomprimovat a původní soubor odstranit.
+  <ul><li><code>tar cvfz dnesni_porce_malin.tar.gz dnesni_porce_malin.img</code></li>
+  <li><code>sudo rm dnesni_porce_malin.img</code></li></ul>
+  Obnovení zálohy z takového obrazu je popsáno v předchozím textu - pracuje se s tím stejně, jako s obrazem z internetu.</p>
+  
+</div>
+<div id="right">
+<ul id="nav">
+	<li><a href="#Home">Home</a></li>
+	<li><a href="#Archive">Archive</a></li>
+	<li><a href="#Link">Links</a></li>
+	<li><a href="#download">Download</a></li>
+	<li><a href="#support">Support</a></li>
+	<li><a href="#contact">Contact</a></li>
+</ul>
+	<div class="box">
+		<h2 style="margin-top:17px">Recent Entries</h2>
+		<ul>
+			<li><a href="#">Recent Entries1</a> <i>01 Des 06</i></li>
+			<li><a href="#">Recent Entries2</a> <i>01 Des 06</i></li>
+			<li><a href="#">Recent Entries3</a> <i>01 Des 06</i></li>
+			<li><a href="#">Recent Entries4</a> <i>01 Des 06</i></li>
+			<li><a href="#">Recent Entries5</a> <i>01 Des 06</i></li>
+		</ul>
+	</div>
+</div>
+<div id="clear"></div></div>
+<div id="footer">
+<p>Copyright 2006 LoadFoO [V1]. Designed by <a href="http://loadfoo.org/" rel="external">LoadFoO</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="external">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer" rel="external">XHTML</a></p>
+</div>
+</div>
+
+</body>
+</html>
