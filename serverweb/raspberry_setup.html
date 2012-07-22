@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<!-- ==========================================================	-->
+<!--	Created by Devit Schizoper                          	-->
+<!--	Created HomePages http://LoadFoo.starzonewebhost.com   	-->
+<!--	Created Day 01.12.2006                              	-->
+<!-- ========================================================== -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs">
+<head>
+   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="content-language" content="cs">
+	<meta name="author" content="ondrej" />
+	<meta name="description" content="Site description" />
+	<meta name="keywords" content="key, words" />
+	<title>Home server</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+	<!-- <link rel="shortcut icon" href="favicon.ico" /> -->
+	<link rel="shortcut icon" href="debian.ico" />
+	<script type="text/javascript" src="js/textsizer.js"></script>
+	<script type="text/javascript" src="js/rel.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+<div id="top">
+<h2><a href="#" title="Back to main page">Debian Home Server</a></h2>
+<div id="menu">
+<ul>
+<li><a href="index.html">home</a></li>
+<li><a href="zprovozneni_mpd.html">about</a></li>
+<li><a href="raspberry.html" class="current">raspberry</a></li>
+<li><a href="#">contact</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div style="float: right;"><a href="javascript:ts('body',1)">[+]</a> | <a
+href="javascript:ts('body',-1)">[-]</a></div>
+<div id="left">
+
+<h2>První spuštění Raspbianu</h2>
+  <p>Na první spuštění systému je potřeba:
+  <ul>
+    <li>monitor s HDMI (nebo televize s S-Videem)</li>
+    <li>usb klávesnice</li>
+    <li>usb myš - pokud chcete zkoušet desktopové prostředí</li>
+    <li>připojení k internetu (RJ45), kvůli update</li>
+    <li>napájení usb micro (nabíječka na telefon - min 700mA)</li>
+    <li>sd karta s <a href="raspberry_sd.html">nahraným Raspbianem</a></li>
+  </ul>
+  Když je vše zapojené a vložená nahraná SD karta, můžete zapnout napájení. Pokud máte štěstí, jako jsem měl já, chodí to.
+  Po chvilce se na obrazovce objeví raspbi config. Tím je možné nastavit všechno potřebné:
+  <ul>
+    <li>rozšířit systém na celý disk (v defaultu je využito jen 2G)</li>
+    <li>nastavit overscan (kvůli použití S-Videa)</li>
+    <li>nastavit rozložení klávesnice</li>
+    <li>změnit lokalizaci a čas</li>
+    <li>změnit rozdělení paměti (velikost video paměti)</li>
+    <li>zapnout/vypnout ssh</li>
+    <li>zapnout spuštění X serveru při startu</li>
+    <li>spusti update systému (pokud máte připojení k internetu)</li>
+  </ul>
+  S nastavením je možné si pohrát. Já jsem si vyzkoušel i automatické spuštění desktopu a jak by se s tím asi pracovalo jako s počítačem,
+  ale pak jsem vzal druhou kartu s holým systémem a nastavil jsem:
+  <ul>
+	  <li>rozšíření na celý disk</li>
+	  <li>nové heslo</li>
+	  <li>US rozložení klávesnice</li>
+	  <li>časovou zónu Evropa/Praha</li>
+	  <li>zapnout ssh</li>
+	  <li>aktualizace systému</li>
+  </ul>
+  Rozšíření systému na celý disk způsobí, že máte k dispozici víc prostoru. Provádí se po nastavení a restartu a dost to trvá.
+  Nevýhodou je také větší objem případné zálohy a úměrně delší čas pro její vytvoření a případné vyvolání.</p>
+  <p>Pokud máte puštěné ssh, nepotřebujete už monitor a klávesnici (a už vůbec ne myš).
+  Stačí si najít Rasbian na síti a připojit se přez ssh:
+  <ul>
+	  <li><code>nmap -F 192.168.10.0/24</code></li>
+	  <li><code>ssh pi@192.168.10.153</code></li>
+  </ul>
+  V mém případě mám síť 192.168.10.xx a adresa mého RasberryPi je 192.168.10.153.</p>
+  <p><code>
+	ondrej@laptop-ondrej ~ $ nmap -F 192.168.10.0/24<br>
+	<br>
+	Starting Nmap 5.21 ( http://nmap.org ) at 2012-07-22 11:10 CEST<br>
+	...<br>
+	Nmap scan report for 192.168.10.153<br>
+	Host is up (0.039s latency).<br>
+	Not shown: 99 closed ports<br>
+	PORT   STATE SERVICE<br>
+	22/tcp open  ssh<br>
+	...<br>
+	Nmap done: 256 IP addresses (5 hosts up) scanned in 37.65 seconds<br>
+	<br>
+	ondrej@laptop-ondrej ~ $ ssh pi@192.168.10.153<br>
+	pi@192.168.10.153's password: <br>
+	Linux raspberrypi 3.1.9+ #168 PREEMPT Sat Jul 14 18:56:31 BST 2012 armv6l<br>
+	<br>
+	The programs included with the Debian GNU/Linux system are free software;<br>
+	the exact distribution terms for each program are described in the<br>
+	individual files in /usr/share/doc/*/copyright.<br>
+	<br>
+	Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent<br>
+	permitted by applicable law.<br>
+	<br>
+	Type 'startx' to launch a graphical session<br>
+	<br>
+	Last login: Sun Jul 22 10:22:49 2012 from 192.168.10.141<br>
+	pi@raspberrypi ~ $ <br>
+  </code></p>
+  <p>Tímto může být uzavřená sekce prvního spuštění a nastavení systému.
+  Výsledkem je fungující systém s nastavenou vzdálenou správou ssh.</p>
+  
+</div>
+<div id="right">
+<ul id="nav">
+	<li><a href="index.html">Home</a></li>
+	<li><a href="raspberry.html">O Raspberry Pi</a></li>
+	<li><a href="raspberry_sd.html">Příprava SD karty</a></li>
+	<li><a href="raspberry_setup.html">První spuštění</a></li>
+	<li><a href="raspberry_wifi.html">Rozchození wifi s wpa2</a></li>
+</ul>
+</div>
+<div id="clear"></div></div>
+<div id="footer">
+<p>Copyright 2006 LoadFoO [V1]. Designed by <a href="http://loadfoo.org/" rel="external">LoadFoO</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="external">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer" rel="external">XHTML</a></p>
+</div>
+</div>
+
+</body>
+</html>
