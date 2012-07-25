@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<!-- ==========================================================	-->
+<!--	Created by Devit Schizoper                          	-->
+<!--	Created HomePages http://LoadFoo.starzonewebhost.com   	-->
+<!--	Created Day 01.12.2006                              	-->
+<!-- ========================================================== -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs">
+<head>
+   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="content-language" content="cs">
+	<meta name="author" content="ondrej" />
+	<meta name="description" content="Site description" />
+	<meta name="keywords" content="key, words" />
+	<title>Home server</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
+	<!-- <link rel="shortcut icon" href="favicon.ico" /> -->
+	<link rel="shortcut icon" href="debian.ico" />
+	<script type="text/javascript" src="js/textsizer.js"></script>
+	<script type="text/javascript" src="js/rel.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+<div id="top">
+<h2><a href="#" title="Back to main page">Debian Home Server</a></h2>
+<div id="menu">
+<ul>
+<li><a href="index.html">home</a></li>
+<li><a href="zprovozneni_mpd.html">about</a></li>
+<li><a href="raspberry.html" class="current">raspberry</a></li>
+<li><a href="#">contact</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div style="float: right;"><a href="javascript:ts('body',1)">[+]</a> | <a
+href="javascript:ts('body',-1)">[-]</a></div>
+
+<div id="left">
+  <h2>Raspberry PI: nastavení statické adresy s ssh</h2>
+  <p>Mám už rozchozenou wifi a pro přihlášení do Raspberry PI používám ssh.
+  Při každém přihlášení musím ale zadat heslo a to je dost otravné. Navíc pokud se můj DHCP server rozhodne změnit malině adresu,
+  budu jí muset hledat a ssh s toho také nebude mít radost. Rozhodl jsem se proto přihlašování si zjednodušit a hledání se vyvarovat.
+  Pokusím se nastavit statickou IP adresu a přímý přístup.</p>
+  <p>Natavení pevné IP adresy jsem okoukal tady: <a href="http://www.cyberciti.biz/faq/debian-linux-wpa-wpa2-wireless-wifi-networking/">http://www.cyberciti.biz/faq/debian-linux-wpa-wpa2-wireless-wifi-networking/</a>
+  a ssh bez hesla tady: <a href="http://www.root.cz/clanky/jak-se-prihlasovat-na-ssh-bez-zadavani-hesla/">http://www.root.cz/clanky/jak-se-prihlasovat-na-ssh-bez-zadavani-hesla/</a>.</p>
+
+  <h2>Nastavení statické IP adresy:</h2>
+  <p>Statická IP adresa se nastavuje v konfiguračním souboru /etc/network/interfaces.
+  Stačilo by mě nastavení pro wifi, ale udělám to zrovna i pro drátovou síť.</p>
+  <p>Provedeme zálohou nastavení a úpravy v souboru
+  <ul>
+	  <li>sudo cp /etc/network/interfaces /etc/network/interfaces.bak</li>
+	  <li>sudo nano /etc/network/interfaces</li>
+  </ul></p>
+  <p><code>
+	auto lo<br>
+	iface lo inet loopback<br>
+	<br>
+	#auto eth0<br>
+	iface eth0 inet static<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;address 192.168.10.152<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;netmask 255.255.255.0<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;network 192.168.10.0<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;gateway 192.168.10.100<br>
+	<br>
+	auto wlan0<br>
+	iface wlan0 inet static<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;wpa-conf /etc/wpa.conf<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;address 192.168.10.153<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;netmask 255.255.255.0<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;network 192.168.10.0<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;gateway 192.168.10.100
+  </code></p>
+  <p>A reboot. Pokud se to povedlo, objeví se Raspbi za chvilku znova na sítí.
+  Pokud ne, vypnout, vyndat kartu, strčit do PC a vrátit vše zpět do funkčního stavu - no a zkusit znova a lépe.
+  <ul>
+	  <li>sudo mv /media/***/etc/network/interfaces.bak /media/***/etc/network/intarfaces</li>
+  </ul></p>
+  <p>Mě se to ale povedlo a Raspbi se na dané adrese ozývá. Abych si tu adresu nemusel pamatovat, nastavím ji do /etc/hosts, přidáním řádků</p>
+  <p><code>
+	  #moje Raspberry PI
+	  192.168.10.152 raspberry
+  </code></p>
+  <p>Odteď můžu místo adresy <i>192.168.10.152</i> používat jméno <i>raspberry</i>:
+  <ul>
+	  <li>ping raspberry</li>
+  </ul></p>
+
+  <h2>SSH bez zadávání hesla:</h2>
+  <p>V první řadě je nutné mít vygenerovaný veřejný klíč. Já už klíč mám, takže se o to pokoušet nebudu.
+  Je to pěkně popsané ve zmiňovaném článku na <a href="http://www.root.cz/clanky/jak-se-prihlasovat-na-ssh-bez-zadavani-hesla/">www.root.cz</a>.</p>
+  <p>Veřejný klíč nakopírujeme na malinu do adresáře <i>/home/pi/.ssh/</i>. Pokud adresář neexistuje, vytvoříme jej.
+  Vytvoříme také soubor <i>authorized_keys</i> a veřejný klíč do něj nakopírujeme.</p>
+  <p>Vytvoření adresáře <i>.ssh</i> a souboru <i>authorized_keys</i> na Raspbi</p>
+  <p><code>
+	  cd ~<br>
+	  mkdir .ssh<br>
+	  cd .ssh<br>
+	  touch authorized_keys<br>
+  </code></p>
+  <p>Nakopírování veřejného klíče z počítače</p>
+  <p><code>
+	  scp ~/.ssh/id_rsa.pub pi@rasberry:/home/pi/.ssh/
+  </code></p>
+  <p>Přenesení klíče do souboru <i>authorized_keys</i> na Raspbi</p>
+  <p><code>
+	  cat id_rsa.pub >> authorized_keys
+  </code></p>
+  <p>To je vše. Příští ssh přihlášení by už mělo být bez potřeby vyťukávat heslo.</p>
+</div>
+
+<div id="right">
+	<ul id="nav">
+		<li><a href="index.html">Home</a></li>
+		<li><a href="raspberry.html">O Raspberry Pi</a></li>
+		<li><a href="raspberry_sd.html">Příprava SD karty</a></li>
+		<li><a href="raspberry_setup.html">První spuštění</a></li>
+		<li><a href="raspberry_wifi.html">Rozchození wifi s wpa2</a></li>
+		<li><a href="raspberry_static.html">Statická IP adresa a ssh</a></li>
+	</ul>
+</div>
+<div id="clear"></div></div>
+<div id="footer">
+<p>Copyright 2006 LoadFoO [V1]. Designed by <a href="http://loadfoo.org/" rel="external">LoadFoO</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="external">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer" rel="external">XHTML</a></p>
+</div>
+</div>
+
+</body>
+</html>
