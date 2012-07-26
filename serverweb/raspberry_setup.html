@@ -50,7 +50,7 @@ href="javascript:ts('body',-1)">[-]</a></div>
     <li>sd karta s <a href="raspberry_sd.html">nahraným Raspbianem</a></li>
   </ul>
   Když je vše zapojené a vložená nahraná SD karta, můžete zapnout napájení. Pokud máte štěstí, jako jsem měl já, chodí to.
-  Po chvilce se na obrazovce objeví raspbi config. Tím je možné nastavit všechno potřebné:
+  Po chvilce se na obrazovce objeví raspi config. Tím je možné nastavit všechno potřebné:
   <ul>
     <li>rozšířit systém na celý disk (v defaultu je využito jen 2G)</li>
     <li>nastavit overscan (kvůli použití S-Videa)</li>
@@ -61,17 +61,20 @@ href="javascript:ts('body',-1)">[-]</a></div>
     <li>zapnout spuštění X serveru při startu</li>
     <li>spusti update systému (pokud máte připojení k internetu)</li>
   </ul>
-  S nastavením je možné si pohrát. Já jsem si vyzkoušel i automatické spuštění desktopu a jak by se s tím asi pracovalo jako s počítačem,
+  <img src="img/raspi_config.png" alt="raspi config"></p>
+  <p></p>S nastavením je možné si pohrát. Já jsem si vyzkoušel i automatické spuštění desktopu a jak by se s tím asi pracovalo jako s počítačem,
   ale pak jsem vzal druhou kartu s holým systémem a nastavil jsem:
   <ul>
 	  <li>rozšíření na celý disk</li>
 	  <li>nové heslo</li>
 	  <li>US rozložení klávesnice</li>
+	  <li>lokalizaci CS UTF-8</li>
 	  <li>časovou zónu Evropa/Praha</li>
 	  <li>zapnout ssh</li>
 	  <li>aktualizace systému</li>
-  </ul>
-  Rozšíření systému na celý disk způsobí, že máte k dispozici víc prostoru. Provádí se po nastavení a restartu a dost to trvá.
+  </ul></p>
+  <p>Pozn.: lokalizaci jsem nějak vynechal, ale při pozdějších instalacích sw jsem přišel na to, že to generuje nějaké soubory, které jsou potřeba - nevynechávat (doplněno).</p>
+  <p>Rozšíření systému na celý disk způsobí, že máte k dispozici víc prostoru. Provádí se po nastavení a restartu a dost to trvá.
   Nevýhodou je také větší objem případné zálohy a úměrně delší čas pro její vytvoření a případné vyvolání.</p>
   <p>Pokud máte puštěné ssh, nepotřebujete už monitor a klávesnici (a už vůbec ne myš).
   Stačí si najít Rasbian na síti a připojit se přez ssh:
