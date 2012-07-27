@@ -39,19 +39,35 @@
 href="javascript:ts('body',-1)">[-]</a></div>
 
 <div id="left">
-  <h2>Raspberry PI</h2>
-  <p>V půlce července 2012 mi konečne přišel můj kousek <a href="http://www.raspberrypi.org/">RaspberryPI</a>, který jsem si objdnával někdy na jaře. 
-  Vzal jsem si tedy dovolenou, na hlídaní dětí jsem si sehnal posily a šel jsem na to.</p>
-  <p><img src="img/RaspberryPi.jpg" alt="Raspberry Pi"></p>
-  <p>Čím jsem prošel (a nezapoměl zdokumentovat):
-    <ul>
-      <li><a href="raspberry_sd.html">Instalace Raspbianu na SD kartu</a></li>
-      <li><a href="raspberry_setup.html">První spuštění a nastavení systému</a></li>
-      <li><a href="raspberry_wifi.html">Zprovoznění wifi s WPA2</a></li>
-      <li><a href="raspberry_static.html">Nastavení statické IP adresy a ssh přístupu bez zadávání hesla</a></li>
-      <li><a href="raspberry_mpd.html">Instalace a použití MPD</a></li>
-    </ul>
-  </p>
+  <h2>Raspberry PI: instalace a použití mpd</h2>
+  <p><a href="http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki">MPD (Music player deamon)</a> udělá z Raspi takový IP tranzistorák.
+  Chtělo by to teda ještě zesilovač a nějaké vizualizační a ovládací prvky - ale základ je aby to hrálo.</p>
+  <p>Instalace se provede příkazem:
+  <ul><li><code>sudo apt-get install mpd mpc</code></li></ul>
+  Před instalací je dobré mít nastavenou lokalizaci v raspi_config, jinak to nadává.
+  Při instalaci se natahují různé kodeky a tak to chvilku trvá.
+  Pokud proběhne instalace v pořádku, mělo vše chodit na prví pokus.
+  Vyzkoušet se to dá vyťukáním
+  <ul>
+	  <li><code>mpc add http://212.111.2.151:8000/rockmax_256.mp3</code></li>
+	  <li><code>mpc play</code></li>
+  </ul>
+  A už by to mělo hrát - pokud jsou tedy připojená sluchátka.</p>
+  <p>Pár příkazů na ovládání mpc
+  <ul>
+	  <li>Přidání položky do playlistu <code>mpc add <i>item</i></code></li>
+	  <li>Spustit přehrávání <code>mpc play [<i>number</i>]</code></li>
+	  <li>Přejít na další položku v playlistu <code>mpc next</code></li>
+	  <li>Přejít na předchozí položku v playlistu <code>mpc prev</code></li>
+	  <li>Zobrazení playlistu <code>mpc playlist</code></li>
+	  <li>Zobrazení co aktuálně hraje <code>mpc current</code></li>
+	  <li>Nastavení hlasitosti v procentech<code>mpc volume <i>x</i></code></li>
+	  <li></li>
+  </ul></p>
+  <p>Problém: Aktuálně mi to krapet přeskakuje.
+  Nezáleží přitom jestli mám stream 128kB nebo 256kB ani jestli je odezva na ping 3ms nebo 200ms.
+  Asi bude třeba si pohrát s velikostí bufferu, nebo tak něco.
+  Nebo zkusit jestli to přejde s drátovým ethernetem ...</p>
 </div>
 
 <div id="right">
