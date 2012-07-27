@@ -76,7 +76,7 @@ href="javascript:ts('body',-1)">[-]</a></div>
   <ul><li><code>sudo dd if=/dev/sdc of=dnesni_porce_malin.img</code></li></ul>
   I v tomto případě odpojuji oddíly SD karty, ale vlasně nevím jestli je to nutné (na kartu se nic nezapisuje).
   Obraz disku zabírá tolik místa, kolik je alokovaná kapacita SD karty. Je proto vhodné jej zkomprimovat a původní soubor odstranit.
-  <ul><li><code>tar cvfz dnesni_porce_malin.tar.gz dnesni_porce_malin.img</code></li>
+  <ul><li><code>tar -cvzf dnesni_porce_malin.tar.gz dnesni_porce_malin.img</code></li>
   <li><code>sudo rm dnesni_porce_malin.img</code></li></ul>
   Obnovení zálohy z takového obrazu je popsáno v předchozím textu - pracuje se s tím stejně, jako s obrazem z internetu.
   Pro úplnost jen doplním rozbalení archivu:
