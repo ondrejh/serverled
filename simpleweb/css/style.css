@@ -54,7 +54,6 @@ blockquote{
 	padding: 10px;
 }
 
-
 /**** Header ***/
 
 header {
@@ -153,6 +152,14 @@ article ul {
 
 article li {
 	margin-bottom:5px;
+}
+
+article figcaption {
+    text-align: right;
+}
+
+article img {
+	max-width: 100%;
 }
 
 
